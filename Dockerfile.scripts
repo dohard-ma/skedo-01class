@@ -1,0 +1,6 @@
+FROM node:14
+WORKDIR /usr/app
+COPY . .
+RUN sh ./scripts/build-scripts.sh
+
+CMD ts-node packages/skedo-code-tools/src/scripts/upload_templates.ts  
