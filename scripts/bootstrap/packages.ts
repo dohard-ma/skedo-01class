@@ -110,13 +110,7 @@ class Packages {
 			})
 	}
 
-	public async installDep(name? : string, resolved : Set<string> = new Set()) {
-		if(!name || resolved) {
-			for(let pkg of this.packages) {
-				await pkg.npmInstall()
-			}
-			return
-		}
+	public async installDep(name : string, resolved : Set<string> = new Set()) {
 		const pkg = this.packages.find(x => x.getName() === name)
 
 		if(resolved.has(pkg.getName())) {
@@ -301,9 +295,11 @@ class Packages {
 			await pkg.reNpmInstall()
 		}
 		await this.installLinks()
-		for(let pkg of this.packages) {
-			await pkg.runBootstrapScript()
-		}
+		await this.buildTS()
+		// for(let pkg of this.packages) {
+		// 	await pkg.runBootstrapScript()
+		// }
+
 
 		this.marks['installed'] = true
 		this.saveMark()
@@ -324,13 +320,13 @@ class Packages {
 		fs.writeFileSync(path.resolve(__dirname, "../../.skedo"), JSON.stringify(this.marks, null, 2), "utf-8")	
 	}
 
-	// public install(){
-	// 	this.packages.forEach(pkg => pkg.npmInstall())
-	// 	this.installLinks()
-	// 	this.packages.forEach(pkg => pkg.runBootstrapScript())
-	// 	this.marks['installed'] = true
-	// 	this.saveMark()
-	// }
+	public install(){
+		this.packages.forEach(pkg => pkg.npmInstall())
+		this.installLinks()
+		this.packages.forEach(pkg => pkg.runBootstrapScript())
+		this.marks['installed'] = true
+		this.saveMark()
+	}
 
 
 }

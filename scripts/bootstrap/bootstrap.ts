@@ -24,6 +24,9 @@ async function run() {
     case 'clear':
       projects.npmClear()
       break
+    case "install" :
+      projects.install()
+      break
     case "install-link":
       projects.installLinks(argv.name)
       break
