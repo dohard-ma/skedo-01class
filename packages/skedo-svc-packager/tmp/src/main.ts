@@ -1,24 +1,20 @@
 import {SkedoContext} from '@skedo/runtime'
-async function run(ctx : SkedoContext){
 
-  let list = []
-  const listview = ctx.select('view')
-  async function fetchData(){
-    const resp = await fetch("http://localhost:7005/faas/default?fn=news")
-    const json = await resp.json()   
-    list = list.concat(json.data)
-    listview.memory(list)   
-  }
-  
-
-  ctx.onMessage((msg) => {
-    if(msg === 'load-more') {
-      fetchData()
+function mockFetch() {
+  return Promise.resolve([...new Array(10)].map(() => {
+    return {
+      img : "https://img.kaikeba.com/35715171601202bhex.png",
+      h1 : "保姆级高分公考"
     }
-  })
-
-  ctx.prepare(async () => {
-    // listview.setProp('fetchData', fetchData)
-  })  
+  }))
+}
+async function run(context : SkedoContext){  
+  
+  const lv = context.select("listview")
+  const list = await mockFetch()
+  console.log(list)
+  lv.memory(list)
+    
+  
 }
 export default run

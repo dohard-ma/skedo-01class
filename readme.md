@@ -14,8 +14,4 @@ npm run reinstall
 ts-node packages\skedo-dao\src\force_build_db.ts
 
 # 安装低代码模板
-ts-node packages\skedo-code-tools\src\scripts\upload_templates.ts
-
-npm start
 ```
-
